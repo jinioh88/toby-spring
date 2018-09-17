@@ -1,14 +1,17 @@
+import user.dao.ConnectionMaker;
+import user.dao.DConnectionMaker;
+import user.dao.DaoFactory;
 import user.dao.UserDao;
 import user.domain.User;
 
 import java.sql.SQLException;
 
-public class Main {
+public class UserDaoTest {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        UserDao dao = new UserDao();
+        UserDao dao = new DaoFactory().userDao();
 
         User user = new User();
-        user.setId("whiteship3");
+        user.setId("whiteship7");
         user.setName("백기선");
         user.setPasswor("married");
 
