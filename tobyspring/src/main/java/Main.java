@@ -1,21 +1,14 @@
-package com.example.toby;
-
-import com.example.toby.user.dao.UserDao;
-import com.example.toby.user.domain.User;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import user.dao.UserDao;
+import user.domain.User;
 
 import java.sql.SQLException;
 
-@SpringBootApplication
-public class TobyApplication {
-
+public class Main {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-//        SpringApplication.run(TobyApplication.class, args);
         UserDao dao = new UserDao();
 
         User user = new User();
-        user.setId("whiteship");
+        user.setId("whiteship2");
         user.setName("백기선");
         user.setPasswor("married");
 
