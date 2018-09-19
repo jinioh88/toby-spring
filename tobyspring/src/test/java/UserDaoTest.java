@@ -1,16 +1,30 @@
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import user.dao.DaoFactory;
+import user.dao.TestDaoFactory;
 import user.dao.UserDao;
 import user.domain.User;
+
+import javax.sql.DataSource;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import java.sql.SQLException;
 
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(classes = {DaoFactory.class} )
 public class UserDaoTest {
+    @Autowired
+    private ApplicationContext context;
+
     private UserDao dao;
     private User user1;
     private User user2;
@@ -18,8 +32,11 @@ public class UserDaoTest {
 
     @Before
     public void setUp() {
-        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
-        this.dao = context.getBean("userDao",UserDao.class);
+        dao = new UserDao();
+        DataSource dataSource = new SingleConnectionDataSource(
+                "jdbc:mysql://localhost:3306/springbook?serverTimezone=UTC&useSSL=false",
+                                                                "spring","book",true);
+        dao.setDataSource(dataSource);
         this.user1 = new User("gyumee","박상철","spring1");
         this.user2 = new User("lee700","이길원","spring2");
         this.user3 = new User("bumjin","박범진","spring3");
