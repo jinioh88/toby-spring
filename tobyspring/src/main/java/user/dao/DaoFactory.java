@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 @Configuration
 public class DaoFactory {
@@ -21,7 +24,12 @@ public class DaoFactory {
 
     @Bean
     public UserDao userDao() {
-        UserDao userDao = new UserDao();
+        UserDao userDao = new UserDao() {
+            @Override
+            protected PreparedStatement makeStatement(Connection c) throws SQLException {
+                return null;
+            }
+        };
         userDao.setDataSource(dataSource());
         return userDao;
     }

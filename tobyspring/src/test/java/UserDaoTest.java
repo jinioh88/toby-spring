@@ -32,7 +32,7 @@ public class UserDaoTest {
 
     @Before
     public void setUp() {
-        dao = new UserDao();
+//        dao = new UserDao();
         DataSource dataSource = new SingleConnectionDataSource(
                 "jdbc:mysql://localhost:3306/springbook?serverTimezone=UTC&useSSL=false",
                                                                 "spring","book",true);

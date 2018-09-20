@@ -19,12 +19,12 @@ public class TestDaoFactory {
         return dataSource;
     }
 
-    @Bean
-    public UserDao userDao() {
-        UserDao userDao = new UserDao();
-        userDao.setDataSource(dataSource());
-        return userDao;
-    }
+//    @Bean
+//    public UserDao userDao() {
+//        UserDao userDao = new UserDao();
+//        userDao.setDataSource(dataSource());
+//        return userDao;
+//    }
 
     @Bean
     public ConnectionMaker connectionMaker() {

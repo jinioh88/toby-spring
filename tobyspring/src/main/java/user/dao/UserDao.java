@@ -1,5 +1,6 @@
 package user.dao;
 
+import com.mysql.cj.xdevapi.AddStatement;
 import org.springframework.dao.EmptyResultDataAccessException;
 import user.domain.User;
 
@@ -9,21 +10,23 @@ import java.sql.*;
 public abstract class UserDao {
     private DataSource dataSource;
 
+    public UserDao() {}
+
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection con = dataSource.getConnection();
-        PreparedStatement ps = con.prepareStatement("insert into users(id, name, password) values(?,?,?)");
-        ps.setString(1,user.getId());
-        ps.setString(2, user.getName());
-        ps.setString(3,user.getPasswor());
+    public void add(final User user) throws SQLException {
+        jdbcContextWithStatementStrategy(new StatementStrategy() {
+            public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
+                PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
+                ps.setString(1,user.getId());
+                ps.setString(2, user.getName());
+                ps.setString(3,user.getPasswor());
 
-        ps.executeUpdate();
-
-        ps.close();
-        con.close();
+                return ps;
+            }
+        });
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
@@ -75,8 +78,11 @@ public abstract class UserDao {
     }
 
     public void deleteAll() throws SQLException {
-        StatementStrategy st = new DeleteAllStatement();
-        jdbcContextWithStatementStrategy(st);
+        jdbcContextWithStatementStrategy(new StatementStrategy() {
+            public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
+                return c.prepareStatement("delete from users");
+            }
+        });
     }
 
     public int getCount()  throws SQLException {
