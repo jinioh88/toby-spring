@@ -1,0 +1,4 @@
+create user 'spring'@'localhost' identified by 'book';
+grant all privileges on *.* to 'spring'@'localhost';
+create database springbook;
+grant all privileges on springbook.* to 'spring'@'localhost';
