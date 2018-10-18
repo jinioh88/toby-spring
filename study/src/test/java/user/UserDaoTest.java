@@ -1,4 +1,4 @@
-package user.dao;
+package user;
 
 
 import org.junit.Before;
@@ -6,15 +6,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import user.dao.UserDao;
 import user.domain.User;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 
 import static org.hamcrest.core.Is.is;
