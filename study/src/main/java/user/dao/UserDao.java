@@ -1,5 +1,6 @@
 package user.dao;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import user.domain.User;
@@ -28,16 +29,16 @@ public class UserDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public void add(User user) throws  SQLException {
+    public void add(User user) {
         this.jdbcTemplate.update("insert into users(id, name, password) value (?,?,?)"
                                               ,user.getId(), user.getName(), user.getPassword());
     }
 
-    public User get(String id) throws  SQLException {
+    public User get(String id)  {
         return this.jdbcTemplate.queryForObject("select * from users where id=?", new Object[]{id}, this.userMapper);
     }
 
-    public void deleteAll() throws SQLException {
+    public void deleteAll()  {
         this.jdbcTemplate.update("delete from users");
     }
 
