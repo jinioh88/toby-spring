@@ -2,3 +2,7 @@ create user 'spring'@'localhost' identified by 'book';
 grant all privileges on *.* to 'spring'@'localhost';
 create database springbook;
 grant all privileges on springbook.* to 'spring'@'localhost';
+
+mysql> alter table users add Level tinyint not null;
+mysql> alter table users add login int not null;
+mysql> alter table users add recommend int not null;

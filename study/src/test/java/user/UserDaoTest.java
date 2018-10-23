@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import user.dao.UserDao;
+import user.domain.Level;
 import user.domain.User;
 
 import java.sql.SQLException;
@@ -34,9 +35,9 @@ public class UserDaoTest {
     public void setUp() {
         //        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
 //        ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
-        this.user1 = new User("gymee","park","spring1");
-        this.user2 = new User("leegw700","lee","spring2");
-        this.user3 = new User("bikom","jin","spring3");
+        this.user1 = new User("gymee","park","spring1", Level.BASIC,1,0);
+        this.user2 = new User("leegw700","lee","spring2",Level.SILVER,55,10);
+        this.user3 = new User("bikom","jin","spring3",Level.GOLD,100,40);
     }
 
     @Test
@@ -50,11 +51,10 @@ public class UserDaoTest {
 
         User userget1 = dao.get(user1.getId());
         assertThat(userget1.getId(),is(user1.getId()));
-        assertThat(userget1.getName(),is(user1.getName()));
+        checkSameUser(userget1, user1);
 
         User userget2 = dao.get(user2.getId());
-        assertThat(userget2.getId(),is(user2.getId()));
-        assertThat(userget2.getName(),is(user2.getName()));
+        checkSameUser(userget2, user2);
     }
 
     @Test
@@ -117,5 +117,8 @@ public class UserDaoTest {
         assertThat(user1.getId(), is(user.getId()));
         assertThat(user1.getName(), is(user.getName()));
         assertThat(user1.getPassword(), is(user.getPassword()));
+        assertThat(user1.getLevel(), is(user.getLevel()));
+        assertThat(user1.getLogin(), is(user.getLogin()));
+        assertThat(user1.getRecommand(), is(user.getRecommand()));
     }
 }
