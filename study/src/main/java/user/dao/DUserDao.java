@@ -30,4 +30,9 @@ public class DUserDao implements UserDao {
     public int getCount() {
         return 0;
     }
+
+    @Override
+    public void update(User user) {
+
+    }
 }
