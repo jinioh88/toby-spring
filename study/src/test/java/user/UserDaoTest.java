@@ -132,6 +132,7 @@ public class UserDaoTest {
         checkSameUser(user2, user2same);
     }
 
+
     private void checkSameUser(User user1, User user) {
         assertThat(user1.getId(), is(user.getId()));
         assertThat(user1.getName(), is(user.getName()));
