@@ -8,6 +8,15 @@ public class User {
     int login;
     int recommand;
 
+    public void upgradeLevel() {
+        Level nextLevel = this.level.nextLevel();
+        if(nextLevel==null) {
+            throw new IllegalArgumentException(this.level+"은 업그레이드가 불가");
+        } else {
+            this.level = nextLevel;
+        }
+    }
+
     public Level getLevel() {
         return level;
     }
