@@ -12,6 +12,8 @@ import user.domain.User;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.fail;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static user.service.UserService.MIN_LOGCOUNT_FOR_SIVER;
@@ -44,11 +46,11 @@ public class UserServiceTest {
 
         userService.upgradedLevels();
 
-        checkLevel(users.get(0), false);
-        checkLevel(users.get(1), true);
-        checkLevel(users.get(2), false);
-        checkLevel(users.get(3), true);
-        checkLevel(users.get(4), false);
+        checkLevelUpgraded(users.get(0), false);
+        checkLevelUpgraded(users.get(1), true);
+        checkLevelUpgraded(users.get(2), false);
+        checkLevelUpgraded(users.get(3), true);
+        checkLevelUpgraded(users.get(4), false);
     }
 
     @Test
@@ -69,7 +71,22 @@ public class UserServiceTest {
         assertThat(userWithoutLevelRead.getLevel(), is(Level.BASIC));
     }
 
-    private void checkLevel(User user, boolean upgraded) {
+    @Test
+    public void upgradeAllOrNothing() {
+        UserService testUserService = new TestUserService(users.get(3).getId());
+        testUserService.setUserDao(this.userDao);
+        userDao.deleteAll();
+        for(User user:users) userDao.add(user);
+
+        try{
+            testUserService.upgradedLevels();
+            fail("TestUserServiceException expected");
+        }catch (TestUserService.TestUserServiceException e) {
+        }
+        checkLevelUpgraded(users.get(1), false);
+    }
+
+    private void checkLevelUpgraded(User user, boolean upgraded) {
         User userUpdate = userDao.get(user.getId());
         if(upgraded) {
             assertThat(userUpdate.getLevel(), is(user.getLevel().nextLevel()));

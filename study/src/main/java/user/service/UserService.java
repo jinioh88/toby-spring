@@ -25,7 +25,7 @@ public class UserService {
         }
     }
 
-    private void upgradedLevel(User user) {
+    protected void upgradedLevel(User user) {
         user.upgradeLevel();
         userDao.update(user);
     }
