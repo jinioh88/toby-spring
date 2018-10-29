@@ -34,16 +34,20 @@ public class UserService {
     public void upgradedLevels() throws SQLException {
         TransactionStatus status = this.transactionManager.getTransaction(new DefaultTransactionDefinition());
         try{
-            List<User> users = userDao.getAll();
-            for(User user:users) {
-                if(canUpgradeLevel(user)) {
-                    upgradedLevel(user);
-                }
-            }
+            upgradeLevelsInternal();
             this.transactionManager.commit(status);
         }catch(Exception e) {
             this.transactionManager.rollback(status);
             throw e;
+        }
+    }
+
+    private void upgradeLevelsInternal() {
+        List<User> users = userDao.getAll();
+        for(User user:users) {
+            if(canUpgradeLevel(user)) {
+                upgradedLevel(user);
+            }
         }
     }
 
@@ -62,7 +66,7 @@ public class UserService {
         mailMessage.setText("사용자님의 등급이 "+ user.getLevel().name()+"로 업그레이드 됨!");
         this.mailSender.send(mailMessage);
     }
-
+// 여기서 다음으로 감ㅕㄴ
     private boolean canUpgradeLevel(User user) {
         Level currentLevel = user.getLevel();
         switch (currentLevel) {

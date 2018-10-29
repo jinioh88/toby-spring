@@ -38,9 +38,10 @@ public class UserServiceTest {
     DataSource dataSource;
     @Autowired
     PlatformTransactionManager transactionManager;
-//    @Autowired
-//    MailSender mailSender;
+    @Autowired
+    MailSender mailSender;
 
+    // 어디서 오류난건지 다시 실행해 보시겠어요? 넵
     List<User> users;
 
     @Before
@@ -100,6 +101,7 @@ public class UserServiceTest {
         UserService testUserService = new TestUserService(users.get(3).getId());
         testUserService.setUserDao(this.userDao);
         testUserService.setTransactionManager(transactionManager);
+        testUserService.setMailSender(mailSender);
         userDao.deleteAll();
         for(User user:users) userDao.add(user);
 
@@ -109,7 +111,6 @@ public class UserServiceTest {
         }catch (TestUserService.TestUserServiceException e) {
         }
         checkLevelUpgraded(users.get(1), false);
-//        testUserService.setMailSender(mailSender);
     }
 
     private void checkLevelUpgraded(User user, boolean upgraded) {
