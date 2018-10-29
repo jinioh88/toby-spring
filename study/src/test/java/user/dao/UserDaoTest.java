@@ -35,9 +35,9 @@ public class UserDaoTest {
     public void setUp() {
         //        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
 //        ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
-        this.user1 = new User("gymee","park","spring1", Level.BASIC,1,0);
-        this.user2 = new User("leegw700","lee","spring2",Level.SILVER,55,10);
-        this.user3 = new User("bikom","jin","spring3",Level.GOLD,100,40);
+        this.user1 = new User("gymee","park","spring1", Level.BASIC,1,0,"gymee@gmail.com");
+        this.user2 = new User("leegw700","lee","spring2",Level.SILVER,55,10,"joyrtouch@gmail.com");
+        this.user3 = new User("bikom","jin","spring3",Level.GOLD,100,40,"erwins@gmail.com");
     }
 
     @Test
