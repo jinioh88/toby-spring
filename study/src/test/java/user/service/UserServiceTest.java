@@ -10,6 +10,8 @@ import user.dao.UserDao;
 import user.domain.Level;
 import user.domain.User;
 
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +28,8 @@ public class UserServiceTest {
     UserService userService;
     @Autowired
     UserDao userDao;
+    @Autowired
+    DataSource dataSource;
     List<User> users;
 
     @Before
@@ -40,7 +44,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void upgradeLevels() {
+    public void upgradeLevels() throws SQLException {
         userDao.deleteAll();
         for(User user:users) userDao.add(user);
 
@@ -72,9 +76,10 @@ public class UserServiceTest {
     }
 
     @Test
-    public void upgradeAllOrNothing() {
+    public void upgradeAllOrNothing() throws Exception {
         UserService testUserService = new TestUserService(users.get(3).getId());
         testUserService.setUserDao(this.userDao);
+        testUserService.setDataSource(this.dataSource);
         userDao.deleteAll();
         for(User user:users) userDao.add(user);
 
