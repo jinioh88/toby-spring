@@ -2,10 +2,10 @@ package user.service;
 
 import user.domain.User;
 
-public class TestUserService extends UserService {
+public class TestUserServiceImpl extends UserServiceImpl {
     private String id;
 
-    TestUserService(String id) {
+    TestUserServiceImpl(String id) {
         this.id = id;
     }
 

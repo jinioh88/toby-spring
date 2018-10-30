@@ -24,14 +24,14 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.fail;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static user.service.UserService.MIN_LOGCOUNT_FOR_SIVER;
-import static user.service.UserService.MIN_RECCOMEND_FOR_GOLD;
+import static user.service.UserServiceImpl.MIN_LOGCOUNT_FOR_SIVER;
+import static user.service.UserServiceImpl.MIN_RECCOMEND_FOR_GOLD;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/applicationContext.xml")
 public class UserServiceTest {
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
     @Autowired
     UserDao userDao;
     @Autowired
@@ -40,8 +40,9 @@ public class UserServiceTest {
     PlatformTransactionManager transactionManager;
     @Autowired
     MailSender mailSender;
+    @Autowired
+    UserServiceImpl userServiceImpl;
 
-    // 어디서 오류난건지 다시 실행해 보시겠어요? 넵
     List<User> users;
 
     @Before
@@ -56,13 +57,12 @@ public class UserServiceTest {
     }
 
     @Test
-    @DirtiesContext
     public void upgradeLevels() throws SQLException {
         userDao.deleteAll();
         for(User user:users) userDao.add(user);
 
         MockMailSender mockMailSender = new MockMailSender();
-        userService.setMailSender(mockMailSender);
+        userServiceImpl.setMailSender(mockMailSender);
 
         userService.upgradedLevels();
 
@@ -98,17 +98,21 @@ public class UserServiceTest {
 
     @Test
     public void upgradeAllOrNothing() throws Exception {
-        UserService testUserService = new TestUserService(users.get(3).getId());
+        UserServiceImpl testUserService = new TestUserServiceImpl(users.get(3).getId());
         testUserService.setUserDao(this.userDao);
-        testUserService.setTransactionManager(transactionManager);
         testUserService.setMailSender(mailSender);
+
+        UserServiceTx txUserService = new UserServiceTx();
+        txUserService.setTransactionManager(transactionManager);
+        txUserService.setUserService(testUserService);
+
         userDao.deleteAll();
         for(User user:users) userDao.add(user);
 
         try{
-            testUserService.upgradedLevels();
+            txUserService.upgradedLevels();
             fail("TestUserServiceException expected");
-        }catch (TestUserService.TestUserServiceException e) {
+        }catch (TestUserServiceImpl.TestUserServiceException e) {
         }
         checkLevelUpgraded(users.get(1), false);
     }
@@ -138,5 +142,9 @@ public class UserServiceTest {
         public void send(SimpleMailMessage... simpleMailMessages) throws MailException {
 
         }
+    }
+
+    static class TestUserService extends UserServiceImpl {
+
     }
 }
