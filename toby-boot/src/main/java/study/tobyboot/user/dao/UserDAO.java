@@ -1,12 +1,19 @@
 package study.tobyboot.user.dao;
 
+import lombok.RequiredArgsConstructor;
 import study.tobyboot.user.domain.User;
 
 import java.sql.*;
 
-public abstract class UserDAO {
+public class UserDAO {
+    private final ConnectionMaker connectionMaker;
+
+    public UserDAO(ConnectionMaker connectionMaker) {
+        this.connectionMaker = connectionMaker;
+    }
+
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection c = getConnection();
+        Connection c = connectionMaker.makeNewConnection();
 
         PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
         ps.setString(1, user.getId());
@@ -20,7 +27,7 @@ public abstract class UserDAO {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection c = getConnection();
+        Connection c = connectionMaker.makeNewConnection();
 
         PreparedStatement ps = c.prepareStatement("select * from users where id = ?");
         ps.setString(1, id);
@@ -40,5 +47,4 @@ public abstract class UserDAO {
         return user;
     }
 
-    public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
 }
