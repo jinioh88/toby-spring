@@ -2,6 +2,8 @@ package study.tobyboot;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import study.tobyboot.user.dao.CountingConnectionMaker;
+import study.tobyboot.user.dao.CountingDaoFactory;
 import study.tobyboot.user.dao.DaoFactory;
 import study.tobyboot.user.dao.UserDAO;
 import study.tobyboot.user.domain.User;
@@ -11,10 +13,11 @@ import java.sql.SQLException;
 public class TobyBootApplication {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+        ApplicationContext context = new AnnotationConfigApplicationContext(CountingDaoFactory.class);
         UserDAO dao = context.getBean("userDAO", UserDAO.class);
-        UserDAO dao2 = context.getBean("userDAO", UserDAO.class);
-        System.out.println(dao == dao2);
+
+        CountingConnectionMaker cm = context.getBean("connectionMaker", CountingConnectionMaker.class);
+        System.out.println("Connection counter : " + cm.getCounter());
 
 //        User user = new User();
 //        user.setId("jinioh3");
