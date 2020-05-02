@@ -6,7 +6,7 @@ import study.tobyboot.user.domain.User;
 import java.sql.*;
 
 public class UserDAO {
-    private final ConnectionMaker connectionMaker;
+    private ConnectionMaker connectionMaker;
 
     public UserDAO(ConnectionMaker connectionMaker) {
         this.connectionMaker = connectionMaker;
