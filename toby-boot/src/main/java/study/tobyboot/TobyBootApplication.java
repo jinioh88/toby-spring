@@ -20,7 +20,7 @@ public class TobyBootApplication {
 //        System.out.println("Connection counter : " + cm.getCounter());
 
         User user = new User();
-        user.setId("jinioh3");
+        user.setId("jinioh5");
         user.setName("오세진");
         user.setPassword("1234");
 
