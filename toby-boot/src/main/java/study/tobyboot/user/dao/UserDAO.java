@@ -8,14 +8,13 @@ import java.sql.*;
 public class UserDAO {
     private ConnectionMaker connectionMaker;
 
-    public UserDAO(ConnectionMaker connectionMaker) {
+//    public UserDAO(ConnectionMaker connectionMaker) {
+//        this.connectionMaker = connectionMaker;
+//    }
+
+    public void setConnectionMaker(ConnectionMaker connectionMaker) {
         this.connectionMaker = connectionMaker;
     }
-
-//    public UserDAO() {
-//        DaoFactory daoFactory = new DaoFactory();
-//        this.connectionMaker = daoFactory.connectionMaker();
-//    }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
         Connection c = connectionMaker.makeNewConnection();
