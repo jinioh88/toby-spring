@@ -4,6 +4,8 @@ import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -16,7 +18,12 @@ import java.sql.SQLException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+//@SpringBootTest
 public class UserDaoTest {
+    @Autowired
+    private ApplicationContext context
+            = new AnnotationConfigApplicationContext(DaoFactory.class);
+
     private UserDAO dao;
     private User user1;
     private User user2;
@@ -24,7 +31,6 @@ public class UserDaoTest {
 
     @BeforeEach
     public void setUp() {
-        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
         dao = context.getBean("userDAO", UserDAO.class);
 
         user1 = new User("jinioh", "오세진", "1111");
