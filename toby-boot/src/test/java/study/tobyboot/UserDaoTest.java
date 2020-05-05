@@ -18,12 +18,12 @@ import java.sql.SQLException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-//@SpringBootTest
+@SpringBootTest(classes = {DaoFactory.class})
 public class UserDaoTest {
     @Autowired
-    private ApplicationContext context
-            = new AnnotationConfigApplicationContext(DaoFactory.class);
+    private ApplicationContext context;
 
+    @Autowired
     private UserDAO dao;
     private User user1;
     private User user2;
@@ -31,7 +31,7 @@ public class UserDaoTest {
 
     @BeforeEach
     public void setUp() {
-        dao = context.getBean("userDAO", UserDAO.class);
+//        dao = context.getBean("userDAO", UserDAO.class);
 
         user1 = new User("jinioh", "오세진", "1111");
         user2 = new User("noonsub", "강주현", "2222");
