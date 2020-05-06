@@ -25,6 +25,7 @@ public class UserDaoTest {
 
     @Autowired
     private UserDAO dao;
+
     private User user1;
     private User user2;
     private User user3;
